@@ -1,0 +1,25 @@
+step 1:
+https://adoptium.net/
+-> .tar.gz downloaden
+-> "untaren": https://www.hostingadvice.com/how-to/untar-file-linuxubuntu/
+-> dann diesem tutorial folgen: https://www.youtube.com/watch?v=BOn4H3OdY8I
+
+step 2:
+auf papermc.io das neuste build herunterladen
+und in einen Ordner für den Server packen
+
+dort dann eine "start.sh" datei erstellen
+mit folgendem code:
+
+#! /usr/bin/bash
+java -Xmx1024M -Xms1024M -jar NAME-DER-PAPER-DATEI.jar nogui
+
+
+step 3:
+zum starten des servers:
+terminal an dieser stelle öffnen
+skript mit "source start.sh" ausführen
+
+
+zum beenden des servers:
+"exit" in die konsole tippen

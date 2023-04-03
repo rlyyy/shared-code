@@ -1,0 +1,97 @@
+step 1:
+https://adoptium.net/
+-> .tar.gz downloaden
+-> "untaren": https://www.hostingadvice.com/how-to/untar-file-linuxubuntu/
+-> dann diesem tutorial folgen: https://www.youtube.com/watch?v=BOn4H3OdY8I
+
+
+step 2:
+
+"New"
+-> Einstellen:
+	Ordnername: CamelCase + keine Leerzeichen
+	Location: prinzipiel wurscht
+	Language: Kotlin
+	Build system: Gradle
+	JDK: temurin-17 ist die die ich hab
+	-> "Advanced Settings":
+		GroupId:
+			domainendung.domain  - kann ausgedacht sein "de.sagitaris"
+		ArtifactId: selbe wie Ordnername (ist sinnvoll)
+
+
+step 3:
+
+NACH KURZEM WARTEN BIS GRADLE FERTIG MIT BUILDEN IST
+
+"build.gradle.kts"
+-> tausch die Vorlage mit folgendem Skript aus:
+
+plugins {
+    id("xyz.jpenilla.run-paper") version "1.0.6"
+    id("org.jetbrains.kotlin.jvm") version "1.7.0"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+}
+
+repositories {
+    mavenCentral()
+    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
+}
+
+dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+}
+
+java { toolchain.languageVersion.set(JavaLanguageVersion.of(17)) }
+
+tasks{
+    shadowJar {
+        minimize() // Will cause issues with Reflection
+    }
+    runServer {
+        minecraftVersion("1.19")
+    }
+}
+
+
+step 4:
+
+src -> main -> resources -> new file "plugin.yml"
+
+-> kopier folgenden Code hinein:
+
+main: domainendung.domain.pluginname.Main
+name: pluginname
+version: 0.1.0
+description: Bisschen Beschreibung, dies das
+api-version: 1.19 # Change to match Minecraft major version
+author: wer ist der plugin autor?
+prefix: So wird das Plugin in "log messages" genannt
+
+
+step 5:
+
+src -> main -> kotlin -> new package "domainendung" -> new package "domain" -> new package "pluginname in klein ohne leerzeichen und Umlaute" 
+-> new Kotlin Class "Main" 
+
+-> tausch alles mit folgendem Code:
+
+
+package domainendung.domain.pluginname
+
+import org.bukkit.plugin.java.JavaPlugin
+
+class Main: JavaPlugin() {
+    override fun onEnable() {
+        // On plugin startup
+    }
+
+    override fun onDisable() {
+        // On plugin shutdown
+    }
+}
+
+
+step 6:
+
+Die .jar-Datei des Plugins befindet sich in PluginOrdner/build/libs
